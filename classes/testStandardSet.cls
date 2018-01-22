@@ -1,6 +1,6 @@
 public class testStandardSet {
 	 
-	public ApexPages.StandardSetController con;
+	public ApexPages.StandardSetController con {get;set;}
 	public List<Account> selectedAccList;
 	public List<Wrapper> wrapperList;
 	public Map<Integer, List<Account>> selectedMap;
