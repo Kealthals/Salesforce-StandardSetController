@@ -4,6 +4,7 @@ public class testStandardSet {
 	public List<Account> selectedAccList;
 	public List<Wrapper> wrapperList;
 	public Map<Integer, List<Account>> selectedMap;
+    public Boolean checkAllFlg {get;set;}
     public Integer selectedCount {
         get{
             if(con == null) {
@@ -32,15 +33,16 @@ public class testStandardSet {
     
     public List<Wrapper> getWrappers() {
     	wrapperList = new List<Wrapper>();
-    	Set<Account> selectedSet = new Set<Account>(getSelectedList());
+    	Set<Account> selectedSet = new Set<Account>((List<Account>)con.getSelected());
     	for(Account acc:(List<Account>)con.getrecords()) {
     		wrapperList.add(new Wrapper(acc, selectedSet.contains(acc)));
     	}
+        if(isAllCheck()) {
+            checkAllFlg = true;
+        } else {
+            checkAllFlg = false;
+        }
     	return wrapperList;
-    }
-    
-    public List<Account> getSelectedList() {
-    	return con.getSelected();
     }
     
     public class Wrapper {
@@ -72,21 +74,6 @@ public class testStandardSet {
         con.last();
     }
 
-
-    public Boolean hasPrevious {
-        get{
-            return con.getHasPrevious();
-        }
-        set;
-    }
-
-    public Boolean hasNext {
-        get{
-            return con.getHasNext();
-        }
-        set;
-    }
-
     public void handleSelectedList() {
         List<Account> currentPageSelected = new List<Account>();
         for(Wrapper w: wrapperList) {
@@ -108,5 +95,45 @@ public class testStandardSet {
         }
 
         con.setSelected(selectedAccList);
+    }
+
+    public Boolean isAllCheck() {
+        if(wrapperList == null) {
+            return false;
+        }
+        for(Wrapper w: wrapperList) {
+            if(!w.isChecked) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void toggleAll() {
+        Boolean allCheckedFlg = true;
+        Boolean allUnCheckedFlg = true;
+        for(Wrapper w: wrapperList) {
+            if(w.isChecked) {
+                allUnCheckedFlg = false;
+            } else {
+                allCheckedFlg = false;
+            }
+        }
+
+        if(allCheckedFlg && !allUnCheckedFlg) {
+            for(Wrapper w: wrapperList) {
+                w.isChecked = false;
+            }
+        } else {
+            for(Wrapper w: wrapperList) {
+                w.isChecked = true;
+            }
+        }
+
+        handleSelectedList();
+    }
+
+    public void updateCount() {
+        handleSelectedList();
     }
 }
