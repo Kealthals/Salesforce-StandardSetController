@@ -1,9 +1,9 @@
 public class testStandardSet {
 	 
-	public ApexPages.StandardSetController con {get;set;}
-	public List<Account> selectedAccList;
-	public List<Wrapper> wrapperList;
-	public Map<Integer, List<Account>> selectedMap;
+    public ApexPages.StandardSetController con {get;set;}
+    public List<Account> selectedAccList;
+    public List<Wrapper> wrapperList;
+    public Map<Integer, List<Account>> selectedMap;
     public Boolean checkAllFlg {get;set;}
     public Integer selectedCount {
         get{
