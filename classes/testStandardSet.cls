@@ -5,6 +5,8 @@ public class testStandardSet {
     public List<Wrapper> wrapperList;
     public Map<Integer, List<Account>> selectedMap;
     public Boolean checkAllFlg {get;set;}
+    public List<SelectOption> listViewList {get;set;}
+    public Id selectedListViewId {get;set;}
     public Integer selectedCount {
         get{
             if(con == null) {
@@ -24,13 +26,24 @@ public class testStandardSet {
     }
 
     public testStandardSet() {
+        init();
+    }
+    
+    private void init() {
         if(con == null) {
             con = new ApexPages.StandardSetController(Database.getQueryLocator([SELECT Id, Name FROM Account]));
             con.setPageSize(10);
             totalPageNo = (con.getResultSize() / 10) + 1;
+            listViewList = con.getListViewOptions();
+            if(String.isBlank(selectedListViewId)) {
+                selectedListViewId = con.getFilterId();
+            } else {
+                con.setFilterId(selectedListViewId);
+            }
+            
         }
     }
-    
+
     public List<Wrapper> getWrappers() {
     	wrapperList = new List<Wrapper>();
     	Set<Account> selectedSet = new Set<Account>((List<Account>)con.getSelected());
@@ -139,5 +152,11 @@ public class testStandardSet {
 
     public void updateCount() {
         handleSelectedList();
+    }
+
+    public void go() {
+        handleSelectedList();
+        con = null;
+        init();
     }
 }

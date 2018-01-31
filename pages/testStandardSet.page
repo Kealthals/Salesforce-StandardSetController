@@ -1,6 +1,11 @@
 <apex:page controller="testStandardSet">
     <apex:form >
         <apex:pageBlock id="table">
+            List View : 
+            <apex:selectList value="{!selectedListViewId}" title="List View" size="1">
+                <apex:selectOptions value="{!listViewList}"/>
+            </apex:selectList>
+            <apex:commandButton action="{!go}" value="GO!"/>
             <apex:pageBlockTable value="{!Wrappers}" var="w">
                 <apex:column width="5%">
                     <apex:facet name="header">
