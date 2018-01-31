@@ -1,31 +1,40 @@
 <apex:page controller="testStandardSet">
-<apex:form >
-    <apex:pageBlock id="table">
-        <apex:pageBlockTable value="{!Wrappers}" var="w" >
-            <apex:column >
-                <apex:facet name="header">
-                    <apex:actionStatus startText="..." id="myStatus">
-                        <apex:facet name="stop">
-                            <apex:inputCheckbox value="{!checkAllFlg}" onclick="toggleAll();"/>
-                        </apex:facet>
-                    </apex:actionStatus> 
-                </apex:facet>
-                <apex:inputCheckbox value="{!w.isChecked}" onclick="updateCount();"/>
-            </apex:column>
-            <apex:column value="{!w.acc.Id}"/>
-            <apex:column value="{!w.acc.Name}"/>
-        </apex:pageBlockTable>
-        <div id="buttons">
-            <apex:commandButton value="|<" action="{!first}" disabled="{!NOT(con.hasPrevious)}" title="First Page" reRender="table"/>
-            <apex:commandButton value="<" action="{!previous}" disabled="{!NOT(con.hasPrevious)}" title="previous page" reRender="table"/>
-            <apex:commandButton value=">" action="{!next}" disabled="{!NOT(con.hasNext)}" title="Next Page" reRender="table"/>
-            <apex:commandButton value=">|" action="{!Last}" disabled="{!NOT(con.hasNext)}" title="Last Page" reRender="table"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="Selected {!selectedCount} record(s)"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="-- {!currentPageNo} / {!totalPageNo} Page(s) --" id="count"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton value="Cancel" action="{!con.Cancel}"/>
-        </div>
+    <apex:form >
+        <apex:pageBlock id="table">
+            <apex:pageBlockTable value="{!Wrappers}" var="w">
+                <apex:column width="5%">
+                    <apex:facet name="header">
+                        <apex:actionStatus startText="..." id="myStatus">
+                            <apex:facet name="stop">
+                                <apex:inputCheckbox value="{!checkAllFlg}" onclick="toggleAll();"/>
+                            </apex:facet>
+                        </apex:actionStatus> 
+                    </apex:facet>
+                    <apex:inputCheckbox value="{!w.isChecked}" onclick="updateCount();"/>
+                </apex:column>
+                <apex:column value="{!w.acc.Id}" width="30%"/>
+                <apex:column>
+                    <apex:outputField  value="{!w.acc.Name}" >
+                          <apex:inlineEditSupport event="ondblclick" showOnEdit="saveButton,cancelButton"
+                                hideOnEdit="backButton" changedStyleClass="myBoldClass"/>
+                    </apex:outputField>
+                </apex:column>
+            </apex:pageBlockTable>
+            <apex:pageBlockButtons id="buttons" location="bottom">
+                <apex:commandButton value="|<" action="{!first}" disabled="{!NOT(con.hasPrevious)}" title="First Page" reRender="table"/>
+                <apex:commandButton value="<" action="{!previous}" disabled="{!NOT(con.hasPrevious)}" title="previous page" reRender="table"/>
+                <apex:commandButton value=">" action="{!next}" disabled="{!NOT(con.hasNext)}" title="Next Page" reRender="table"/>
+                <apex:commandButton value=">|" action="{!Last}" disabled="{!NOT(con.hasNext)}" title="Last Page" reRender="table"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="Selected {!selectedCount} record(s)"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="-- {!currentPageNo} / {!totalPageNo} Page(s) --" id="count"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton action="{!save}" id="saveButton" value="Save"/>
+                <apex:commandButton id="cancelButton" value="Cancel"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton id="backButton" value="Back" action="{!con.Cancel}"/>
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
         <apex:actionFunction action="{!toggleAll}" name="toggleAll" reRender="table" status="myStatus"/>
         <apex:actionFunction action="{!updateCount}" name="updateCount" reRender="table"/>
-    </apex:pageBlock>
-</apex:form>
+
+    </apex:form>
 </apex:page>

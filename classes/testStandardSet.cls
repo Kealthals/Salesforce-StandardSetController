@@ -73,6 +73,10 @@ public class testStandardSet {
         handleSelectedList();
         con.last();
     }
+    public void save() {
+        handleSelectedList();
+        con.save();
+    }
 
     public void handleSelectedList() {
         List<Account> currentPageSelected = new List<Account>();
