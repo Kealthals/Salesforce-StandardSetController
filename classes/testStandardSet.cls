@@ -7,6 +7,7 @@ public class testStandardSet {
     public Boolean checkAllFlg {get;set;}
     public List<SelectOption> listViewList {get;set;}
     public Id selectedListViewId {get;set;}
+    public Integer pSize {get;set;}
     public Integer selectedCount {
         get{
             if(con == null) {
@@ -32,7 +33,10 @@ public class testStandardSet {
     private void init() {
         if(con == null) {
             con = new ApexPages.StandardSetController(Database.getQueryLocator([SELECT Id, Name FROM Account]));
-            con.setPageSize(10);
+            if(pSize == null) {
+                pSize = con.getPageSize();
+            }
+            con.setPageSize(pSize);
             totalPageNo = (con.getResultSize() / 10) + 1;
             listViewList = con.getListViewOptions();
             if(String.isBlank(selectedListViewId)) {
@@ -155,6 +159,12 @@ public class testStandardSet {
     }
 
     public void go() {
+        handleSelectedList();
+        con = null;
+        init();
+    }
+
+    public void setPaSize() {
         handleSelectedList();
         con = null;
         init();

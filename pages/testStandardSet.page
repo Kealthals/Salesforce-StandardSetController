@@ -1,7 +1,7 @@
 <apex:page controller="testStandardSet">
-    <apex:form >
-        <apex:pageBlock id="table">
-            List View : 
+    <apex:form>
+        <apex:pageBlock id="table" helpTitle="Help" helpUrl="https://blog.keal.us">            
+            List View :&nbsp;
             <apex:selectList value="{!selectedListViewId}" title="List View" size="1">
                 <apex:selectOptions value="{!listViewList}"/>
             </apex:selectList>
@@ -25,11 +25,16 @@
                     </apex:outputField>
                 </apex:column>
             </apex:pageBlockTable>
-            <apex:pageBlockButtons id="buttons" location="bottom">
-                <apex:commandButton value="|<" action="{!first}" disabled="{!NOT(con.hasPrevious)}" title="First Page" reRender="table"/>
-                <apex:commandButton value="<" action="{!previous}" disabled="{!NOT(con.hasPrevious)}" title="previous page" reRender="table"/>
-                <apex:commandButton value=">" action="{!next}" disabled="{!NOT(con.hasNext)}" title="Next Page" reRender="table"/>
-                <apex:commandButton value=">|" action="{!Last}" disabled="{!NOT(con.hasNext)}" title="Last Page" reRender="table"/>
+            <apex:pageBlockButtons id="buttons" location="bottom" >
+                <apex:outputText value="PageSize:"/><apex:inputtext value="{!pSize}" size="3"/><apex:commandButton action="{!setPaSize}" value="Set"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:outputText value="|<" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
+                <apex:commandLink value="|<" action="{!first}" rendered="{!con.hasPrevious}" title="First Page" reRender="table"/>&nbsp;
+                <apex:outputText value="<" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
+                <apex:commandLink value="<" action="{!previous}" rendered="{!con.hasPrevious}" title="previous page" reRender="table"/>&nbsp;
+                <apex:outputText value=">" rendered="{!NOT(con.hasNext)}"/>&nbsp;
+                <apex:commandLink value=">" action="{!next}" rendered="{!con.hasNext}" title="Next Page" reRender="table"/>&nbsp;
+                <apex:outputText value=">|" rendered="{!NOT(con.hasNext)}"/>&nbsp;
+                <apex:commandLink value=">|" action="{!Last}" rendered="{!con.hasNext}" title="Last Page" reRender="table"/>&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="Selected {!selectedCount} record(s)"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="-- {!currentPageNo} / {!totalPageNo} Page(s) --" id="count"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton action="{!save}" id="saveButton" value="Save"/>
