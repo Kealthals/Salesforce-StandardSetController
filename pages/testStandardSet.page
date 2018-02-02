@@ -1,4 +1,5 @@
 <apex:page controller="testStandardSet" docType="html-5.0">
+    <apex:pagemessages />
     <script>
         function setFocusOnLoad() {}
     </script>
@@ -24,12 +25,14 @@
                 <apex:column>
                     <apex:outputField value="{!w.acc.Name}" >
                           <apex:inlineEditSupport event="ondblclick" showOnEdit="saveButton,cancelButton"
-                                hideOnEdit="backButton" changedStyleClass="myBoldClass"/>
+                                hideOnEdit="backButton"/>
                     </apex:outputField>
                 </apex:column>
             </apex:pageBlockTable>
-            <apex:pageBlockButtons id="buttons" location="bottom">
-                <apex:outputText value="PageSize:"/><apex:inputtext value="{!pSize}" size="3"/><apex:commandButton action="{!setPaSize}" value="Set"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <apex:outputPanel id="buttons">
+                <apex:outputText value="PageSize:"/><apex:inputtext value="{!pSize}" size="3" html-pattern="[0-9]+"/>
+                <apex:commandButton action="{!setPaSize}" value="Set"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:outputText value="Selected {!selectedCount} record(s)"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <apex:outputText value="|<" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
                 <apex:commandLink value="|<" action="{!first}" rendered="{!con.hasPrevious}" title="First Page" reRender="table"/>&nbsp;
                 <apex:outputText value="< Previous" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
@@ -38,13 +41,14 @@
                 <apex:commandLink value="Next >" action="{!next}" rendered="{!con.hasNext}" title="Next Page" reRender="table"/>&nbsp;
                 <apex:outputText value=">|" rendered="{!NOT(con.hasNext)}"/>&nbsp;
                 <apex:commandLink value=">|" action="{!Last}" rendered="{!con.hasNext}" title="Last Page" reRender="table"/>&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="Selected {!selectedCount} record(s)"/>
+
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="-- {!currentPageNo} / {!totalPageNo} Page(s) --" id="count"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputtext value="Go to Page-> "/><apex:inputtext value="{!pPage}" size="3" html-pattern="[0-9]+"/>
+                <apex:commandButton action="{!gotoPage}" value="Jump!"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton action="{!save}" id="saveButton" value="Save"/>
                 <apex:commandButton id="cancelButton" value="Cancel"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton id="backButton" value="Back" action="{!con.Cancel}"/>
-            </apex:pageBlockButtons>
-
+            </apex:outputPanel>
         </apex:pageBlock>
         <apex:actionFunction action="{!toggleAll}" name="toggleAll" reRender="table" status="myStatus"/>
         <apex:actionFunction action="{!updateCount}" name="updateCount" reRender="table"/>

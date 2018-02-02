@@ -8,6 +8,7 @@ public class testStandardSet {
     public List<SelectOption> listViewList {get;set;}
     public Id selectedListViewId {get;set;}
     public Integer pSize {get;set;}
+    public Integer pPage {get;set;}
     public Integer selectedCount {
         get{
             if(con == null) {
@@ -32,7 +33,11 @@ public class testStandardSet {
     
     private void init() {
         if(con == null) {
-            con = new ApexPages.StandardSetController(Database.getQueryLocator([SELECT Id, Name FROM Account]));
+            //con = new ApexPages.StandardSetController(Database.getQueryLocator([SELECT Id, Name FROM Account]));
+            con = new ApexPages.StandardSetController([SELECT Id, Name FROM Account]);
+            if(!con.getCompleteResult()) {
+                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'The maximum record limit for StandardSetController is 10,000 records. Instantiating StandardSetController using a query locator returning more than 10,000 records causes a LimitException to be thrown. However, instantiating StandardSetController with a list of more than 10,000 records doesn’t throw an exception, and instead truncates the records to the limit.'));
+            }
             if(pSize == null) {
                 pSize = con.getPageSize();
             }
@@ -165,8 +170,25 @@ public class testStandardSet {
     }
 
     public void setPaSize() {
-        handleSelectedList();
-        con = null;
-        init();
+        if(pSize != 0) {
+            handleSelectedList();
+            con = null;
+            init();
+        } else {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'PageSize is 0.'));
+        }
+    }
+
+    public void gotoPage() {
+        if(pPage != 0) {
+            if(pPage < totalPageNo) {
+                handleSelectedList();
+                con.setPageNumber(pPage);
+            } else {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'PageNo over max.'));
+            }
+        } else {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'PageNo is 0.'));
+        }
     }
 }
