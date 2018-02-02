@@ -41,7 +41,6 @@
                 <apex:commandLink value="Next >" action="{!next}" rendered="{!con.hasNext}" title="Next Page" reRender="table"/>&nbsp;
                 <apex:outputText value=">|" rendered="{!NOT(con.hasNext)}"/>&nbsp;
                 <apex:commandLink value=">|" action="{!Last}" rendered="{!con.hasNext}" title="Last Page" reRender="table"/>&nbsp;
-
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="-- {!currentPageNo} / {!totalPageNo} Page(s) --" id="count"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputtext value="Go to Page-> "/><apex:inputtext value="{!pPage}" size="3" html-pattern="[0-9]+"/>
                 <apex:commandButton action="{!gotoPage}" value="Jump!"/>

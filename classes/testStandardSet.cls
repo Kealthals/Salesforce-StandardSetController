@@ -170,8 +170,8 @@ public class testStandardSet {
     }
 
     public void setPaSize() {
+        handleSelectedList();
         if(pSize != 0) {
-            handleSelectedList();
             con = null;
             init();
         } else {
@@ -180,9 +180,9 @@ public class testStandardSet {
     }
 
     public void gotoPage() {
+        handleSelectedList();
         if(pPage != 0) {
             if(pPage < totalPageNo) {
-                handleSelectedList();
                 con.setPageNumber(pPage);
             } else {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'PageNo over max.'));
