@@ -11,27 +11,27 @@ Status: Almost Done.
 
 Used Method List:
 
-cancel()
-first()
-getCompleteResult()
-getFilterId()
-getHasNext()
-getHasPrevious()
-getListViewOptions()
-getPageNumber()
-getPageSize()
-getRecord()   ---- Not yet
-getRecords()
-getResultSize()
-getSelected()
-last()
-next()
-previous()
-save()
-setFilterID(filterId)
-setpageNumber(pageNumber)
-setPageSize(pageSize)
-setSelected(selectedRecords)
+*cancel()
+*first()
+*getCompleteResult()
+*getFilterId()
+*getHasNext()
+*getHasPrevious()
+*getListViewOptions()
+*getPageNumber()
+*getPageSize()
+*getRecord()   ---- Not yet
+*getRecords()
+*getResultSize()
+*getSelected()
+*last()
+*next()
+*previous()
+*save()
+*setFilterID(filterId)
+*setpageNumber(pageNumber)
+*setPageSize(pageSize)
+*setSelected(selectedRecords)
 
 
 
