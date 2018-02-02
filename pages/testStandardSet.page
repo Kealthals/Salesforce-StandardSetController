@@ -1,6 +1,9 @@
-<apex:page controller="testStandardSet">
-    <apex:form>
-        <apex:pageBlock id="table" helpTitle="Help" helpUrl="https://blog.keal.us">            
+<apex:page controller="testStandardSet" docType="html-5.0">
+    <script>
+        function setFocusOnLoad() {}
+    </script>
+    <apex:form >
+        <apex:pageBlock id="table" title="StandardSetController Demo" helpTitle="Help" helpUrl="https://blog.keal.us">            
             List View :&nbsp;
             <apex:selectList value="{!selectedListViewId}" title="List View" size="1">
                 <apex:selectOptions value="{!listViewList}"/>
@@ -19,20 +22,20 @@
                 </apex:column>
                 <apex:column value="{!w.acc.Id}" width="30%"/>
                 <apex:column>
-                    <apex:outputField  value="{!w.acc.Name}" >
+                    <apex:outputField value="{!w.acc.Name}" >
                           <apex:inlineEditSupport event="ondblclick" showOnEdit="saveButton,cancelButton"
                                 hideOnEdit="backButton" changedStyleClass="myBoldClass"/>
                     </apex:outputField>
                 </apex:column>
             </apex:pageBlockTable>
-            <apex:pageBlockButtons id="buttons" location="bottom" >
+            <apex:pageBlockButtons id="buttons" location="bottom">
                 <apex:outputText value="PageSize:"/><apex:inputtext value="{!pSize}" size="3"/><apex:commandButton action="{!setPaSize}" value="Set"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <apex:outputText value="|<" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
                 <apex:commandLink value="|<" action="{!first}" rendered="{!con.hasPrevious}" title="First Page" reRender="table"/>&nbsp;
-                <apex:outputText value="<" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
-                <apex:commandLink value="<" action="{!previous}" rendered="{!con.hasPrevious}" title="previous page" reRender="table"/>&nbsp;
-                <apex:outputText value=">" rendered="{!NOT(con.hasNext)}"/>&nbsp;
-                <apex:commandLink value=">" action="{!next}" rendered="{!con.hasNext}" title="Next Page" reRender="table"/>&nbsp;
+                <apex:outputText value="< Previous" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
+                <apex:commandLink value="< Previous" action="{!previous}" rendered="{!con.hasPrevious}" title="previous page" reRender="table"/>&nbsp;
+                <apex:outputText value=" Next >" rendered="{!NOT(con.hasNext)}"/>&nbsp;
+                <apex:commandLink value="Next >" action="{!next}" rendered="{!con.hasNext}" title="Next Page" reRender="table"/>&nbsp;
                 <apex:outputText value=">|" rendered="{!NOT(con.hasNext)}"/>&nbsp;
                 <apex:commandLink value=">|" action="{!Last}" rendered="{!con.hasNext}" title="Last Page" reRender="table"/>&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="Selected {!selectedCount} record(s)"/>
@@ -45,6 +48,5 @@
         </apex:pageBlock>
         <apex:actionFunction action="{!toggleAll}" name="toggleAll" reRender="table" status="myStatus"/>
         <apex:actionFunction action="{!updateCount}" name="updateCount" reRender="table"/>
-
     </apex:form>
 </apex:page>

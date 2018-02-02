@@ -37,7 +37,7 @@ public class testStandardSet {
                 pSize = con.getPageSize();
             }
             con.setPageSize(pSize);
-            totalPageNo = (con.getResultSize() / 10) + 1;
+            totalPageNo = (con.getResultSize() / pSize) + 1;
             listViewList = con.getListViewOptions();
             if(String.isBlank(selectedListViewId)) {
                 selectedListViewId = con.getFilterId();
