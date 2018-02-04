@@ -33,5 +33,11 @@ Used Method List:
 * setPageSize(pageSize)
 * setSelected(selectedRecords)
 
+## HOW TO USE
 
+1. git clone https://github.com/Kealthals/Salesforce-StandardSetController.git
+2. Deploy to your Org
+3. Open VF via https://[yourInstanceName].salesforce.com/apex/testStandardSet
+4. If no any records in the list. Insert some Accounts. We just need Id and Name columns.
+5. Enjoy!
 
