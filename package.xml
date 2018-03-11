@@ -2,10 +2,12 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>testStandardSet</members>
+		<members>StandardSetDemoController</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>testStandardSet</members>
+		<members>StandardSetControllerDemo</members>
         <name>ApexPage</name>
     </types>
     <version>41.0</version>

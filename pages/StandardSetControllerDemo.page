@@ -1,0 +1,63 @@
+<apex:page controller="StandardSetDemoController" docType="html-5.0">
+    <apex:pagemessages />
+    <script>
+        function setFocusOnLoad() {}
+    </script>
+    <apex:form >
+        <apex:pageBlock id="table" title="StandardSetController Demo" helpTitle="Help" helpUrl="https://blog.keal.us">            
+            List View :&nbsp;
+            <apex:selectList value="{!selectedListViewId}" title="List View" size="1">
+                <apex:selectOptions value="{!listViewList}"/>
+            </apex:selectList>
+            <apex:commandButton action="{!go}" value="GO!"/>
+            <apex:pageBlockTable value="{!Wrappers}" var="w">
+                <apex:column width="5%">
+                    <apex:facet name="header">
+                        <apex:actionStatus startText="..." id="myStatus">
+                            <apex:facet name="stop">
+                                <apex:inputCheckbox value="{!checkAllFlg}" onclick="toggleAll();"/>
+                            </apex:facet>
+                        </apex:actionStatus> 
+                    </apex:facet>
+                    <apex:inputCheckbox value="{!w.isChecked}" onclick="updateCount();"/>
+                </apex:column>
+                <apex:column value="{!w.valueList[0]}" width="30%">
+                    <apex:facet name="header">
+                        <apex:commandlink value="{!$ObjectType.Account.fields.Id.Label}{!IF(sortOrderKeep==$ObjectType.Account.fields.Id.Label + '△', '△', IF(sortOrderKeep==$ObjectType.Account.fields.Id.Label + '▽','▽',''))}" action="{!sort}" reRender="table">
+                            <apex:param name="sortString" value="{!$ObjectType.Account.fields.Id.Label}{!IF(sortOrderKeep==$ObjectType.Account.fields.Id.Label + '△','▽',IF(sortOrderKeep==$ObjectType.Account.fields.Id.Label + '△','▽','△'))}" assignTo="{!sortOrderKeep}"/>
+                        </apex:commandlink>
+                    </apex:facet>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandlink value="{!$ObjectType.Account.fields.Name.Label}{!IF(sortOrderKeep==$ObjectType.Account.fields.Name.Label + '△', '△', IF(sortOrderKeep==$ObjectType.Account.fields.Name.Label + '▽','▽',''))}" action="{!sort}" reRender="table">
+                            <apex:param name="sortString" value="{!$ObjectType.Account.fields.Name.Label}{!IF(sortOrderKeep==$ObjectType.Account.fields.Name.Label + '△','▽',IF(sortOrderKeep==$ObjectType.Account.fields.Name.Label + '△','▽','△'))}" assignTo="{!sortOrderKeep}"/>
+                        </apex:commandlink>
+                    </apex:facet>
+                    <apex:outputText value="{!w.valueList[1]}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+            <apex:outputPanel id="buttons">
+                <apex:outputText value="PageSize:"/><apex:inputtext value="{!pSize}" size="3" html-pattern="[0-9]+"/>
+                <apex:commandButton action="{!setPaSize}" value="Set"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:outputText value="Selected {!selectedCount} record(s)"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:outputText value="|<" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
+                <apex:commandLink value="|<" action="{!first}" rendered="{!con.hasPrevious}" title="First Page" reRender="table"/>&nbsp;
+                <apex:outputText value="< Previous" rendered="{!NOT(con.hasPrevious)}"/>&nbsp;
+                <apex:commandLink value="< Previous" action="{!previous}" rendered="{!con.hasPrevious}" title="previous page" reRender="table"/>&nbsp;
+                <apex:outputText value=" Next >" rendered="{!NOT(con.hasNext)}"/>&nbsp;
+                <apex:commandLink value="Next >" action="{!next}" rendered="{!con.hasNext}" title="Next Page" reRender="table"/>&nbsp;
+                <apex:outputText value=">|" rendered="{!NOT(con.hasNext)}"/>&nbsp;
+                <apex:commandLink value=">|" action="{!Last}" rendered="{!con.hasNext}" title="Last Page" reRender="table"/>&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputText value="-- {!currentPageNo} / {!totalPageNo} Page(s) --" id="count"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:outputtext value="Go to Page-> "/><apex:inputtext value="{!pPage}" size="3" html-pattern="[0-9]+"/>
+                <apex:commandButton action="{!gotoPage}" value="Jump!"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton action="{!save}" id="saveButton" value="Save"/>
+                <apex:commandButton id="cancelButton" value="Cancel"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<apex:commandButton id="backButton" value="Back" action="{!con.Cancel}"/>
+            </apex:outputPanel>
+        </apex:pageBlock>
+        <apex:actionFunction action="{!toggleAll}" name="toggleAll" reRender="table" status="myStatus"/>
+        <apex:actionFunction action="{!updateCount}" name="updateCount" reRender="table"/>
+    </apex:form>
+</apex:page>
